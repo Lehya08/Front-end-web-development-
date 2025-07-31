@@ -60,6 +60,9 @@ Modern browser with localStorage support
 🤝 Contributing
 Feel free to fork the project, open issues, or submit pull requests!
 
+
+
+
 3)📚 React Course Browser
 A responsive React component that lets users browse and filter a list of courses using a search bar and tag-based filtering. Built with Tailwind CSS for rapid styling and a modern UI.
 
@@ -130,6 +133,9 @@ No additional libraries are required.
 🙌 Acknowledgements
 Thanks to the React and Tailwind CSS communities for their fantastic tooling.
 
+
+
+
 4)🎓 Course Completion Celebration Page
 A simple, elegant web page that lets users celebrate course completion with a motivational message and colorful confetti animation. Built with HTML, CSS, and the Canvas Confetti JavaScript library.
 
@@ -179,6 +185,9 @@ No setup or installation required.
 🙌 Acknowledgements
 canvas-confetti by @catdad
 A lightweight, zero-dependency confetti library for the web.
+
+
+
 
 5)📦 Offline Course Downloader (React + IndexedDB + Workbox)
 A React-based solution that allows users to download course content (text + images) for offline access using IndexedDB and Workbox-powered service workers.
