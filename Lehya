@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width", intial-scale="1.0">
+    <link href="https://drive.google.com/file/d/1BkwE7TeeSS18zPhN5ad8FFXG3PT-uYSx/view?usp=sharing" rel="stylesheet">
+    <title>Certificate Generator</title>
+</head>
+
+<body>
+     <div class="container">
+        <h1>Certificate Generator</h1>
+        <label>
+            Name:
+            <input type="text">
+    </label>
+    <a href="#" id="download-btn">Download</a>
+
+    <canvas id="canvas" height="350px" width="500px"></canvas>
+    </div>
+</body>
+
+</html>
+
+
+
+
+
+
+<!-- Profile Page Badge Section -->
+<div id="badge-section">
+  <h2>My Achievements</h2>
+  <div id="badge-container" class="badge-grid"></div>
+</div>
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 16px;
+  padding: 10px;
+}
+.badge {
+  text-align: center;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+.badge.locked img {
+  filter: grayscale(100%);
+  opacity: 0.5;
+}
+.badge img {
+  width: 60px;
+  height: 60px;
+}
+function awardBadge(courseId) {
+  const badges = JSON.parse(localStorage.getItem("userBadges")) || {};
+  badges[courseId] = true;
+  localStorage.setItem("userBadges", JSON.stringify(badges));
+  renderBadges();
+}
+<script>
+const availableBadges = [
+  { id: "html101", name: "HTML Beginner", image: "html.png" },
+  { id: "css101", name: "CSS Stylist", image: "css.png" },
+  { id: "js101", name: "JS Explorer", image: "js.png" },
+];
+
+function renderBadges() {
+  const badges = JSON.parse(localStorage.getItem("userBadges")) || {};
+  const container = document.getElementById("badge-container");
+  container.innerHTML = '';
+
+  availableBadges.forEach(badge => {
+    const isEarned = badges[badge.id];
+    const badgeDiv = document.createElement("div");
+    badgeDiv.className = `badge ${isEarned ? '' : 'locked'}`;
+    badgeDiv.innerHTML = `
+      <img src="${badge.image}" alt="${badge.name}" />
+      <div>${badge.name}</div>
+    `;
+    container.appendChild(badgeDiv);
+  });
+}
+
+// Example: Award badge when course is completed
+function completeCourse(courseId) {
+  awardBadge(courseId);
+}
+
+// Call on page load
+renderBadges();
+</script>
+
+
+
+
+
+
+import React, { useState } from "react";
+
+const courses = [
+  {
+    id: 1,
+    title: "Introduction to Programming",
+    description: "Learn basic coding with Python.",
+    tags: ["Programming"],
+  },
+  {
+    id: 2,
+    title: "Graphic Design Basics",
+    description: "Explore color theory and typography.",
+    tags: ["Design"],
+  },
+  {
+    id: 3,
+    title: "Digital Marketing 101",
+    description: "Understand social media and SEO.",
+    tags: ["Marketing"],
+  },
+  {
+    id: 4,
+    title: "Advanced React",
+    description: "Hooks, context, and performance tuning.",
+    tags: ["Programming"],
+  },
+];
+
+const tags = ["Programming", "Design", "Marketing"];
+
+export default function CourseBrowser() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [activeTags, setActiveTags] = useState([]);
+
+  const toggleTag = (tag) => {
+    setActiveTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
+
+  const filteredCourses = courses.filter((course) => {
+    const matchesSearch =
+      course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.description.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesTags =
+      activeTags.length === 0 ||
+      course.tags.some((tag) => activeTags.includes(tag));
+
+    return matchesSearch && matchesTags;
+  });
+
+  return (
+    <div className="p-6 max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Discover Courses</h1>
+
+      <input
+        type="text"
+        placeholder="Search courses..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="w-full p-2 border rounded mb-4"
+      />
+
+      <div className="flex gap-2 mb-6 flex-wrap">
+        {tags.map((tag) => (
+          <button
+            key={tag}
+            onClick={() => toggleTag(tag)}
+            className={`px-3 py-1 rounded-full border ${
+              activeTags.includes(tag)
+                ? "bg-blue-600 text-white border-blue-600"
+                : "bg-white text-gray-800 border-gray-300"
+            }`}
+          >
+            {tag}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-4">
+        {filteredCourses.length > 0 ? (
+          filteredCourses.map((course) => (
+            <div
+              key={course.id}
+              className="border p-4 rounded-lg shadow hover:shadow-md transition"
+            >
+              <h2 className="text-xl font-semibold mb-1">{course.title}</h2>
+              <p className="text-gray-600 mb-2">{course.description}</p>
+              <div className="flex gap-2 flex-wrap">
+                {course.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-sm bg-gray-100 px-2 py-1 rounded-full"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-500">No courses found.</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+
+
+
+3rd<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Course Completion</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: #f0f4f8;
+    }
+
+    .message {
+      font-size: 2rem;
+      color: #2e7d32;
+      margin-top: 20px;
+      opacity: 0;
+      transition: opacity 0.5s ease-in;
+    }
+
+    .message.show {
+      opacity: 1;
+    }
+
+    .complete-btn {
+      padding: 12px 24px;
+      font-size: 1rem;
+      background: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .complete-btn:hover {
+      background: #1565c0;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="complete-btn" onclick="celebrateCompletion()">Complete Course</button>
+  <div class="message" id="completionMessage">🎉 Great Job! You've completed the course! 🎉</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    function celebrateCompletion() {
+      // Show motivational message
+      const message = document.getElementById('completionMessage');
+      message.classList.add('show');
+
+      // Fire confetti for 4 seconds
+      const duration = 4000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 3,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+        });
+        confetti({
+          particleCount: 3,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    }
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+async function downloadCourseContent(courseId) {
+  const courseData = await fetch(`/api/course/${courseId}`).then(res => res.json());
+
+  // Save text and image URLs to IndexedDB
+  const db = await openDB('OfflineCourses', 1, {
+    upgrade(db) {
+      if (!db.objectStoreNames.contains('courses')) {
+        db.createObjectStore('courses', { keyPath: 'id' });
+      }
+    },
+  });
+
+  // Download images as blobs
+  const imageBlobs = await Promise.all(courseData.images.map(async (url) => {
+    const res = await fetch(url);
+    const blob = await res.blob();
+    return { url, blob };
+  }));
+
+  await db.put('courses', {
+    id: courseId,
+    title: courseData.title,
+    content: courseData.content, // text/HTML
+    images: imageBlobs,
+    downloadedAt: new Date(),
+  });
+}
+async function isCourseOffline(courseId) {
+  const db = await openDB('OfflineCourses', 1);
+  const course = await db.get('courses', courseId);
+  return !!course;
+}
+async function getOfflineCourse(courseId) {
+  const db = await openDB('OfflineCourses', 1);
+  return await db.get('courses', courseId);
+}
+function CourseCard({ course }) {
+  const [isOffline, setIsOffline] = useState(false);
+
+  useEffect(() => {
+    isCourseOffline(course.id).then(setIsOffline);
+  }, [course.id]);
+
+  return (
+    <div className="course-card">
+      <h3>{course.title}</h3>
+      {isOffline && <span className="badge">✅ Available offline</span>}
+    </div>
+  );
+}
+// sw.js
+workbox.routing.registerRoute(
+  ({url}) => url.pathname.startsWith('/api/course'),
+  new workbox.strategies.NetworkFirst({
+    cacheName: 'api-cache',
+  })
+);
+
+workbox.routing.registerRoute(
+  ({request}) => request.destination === 'image',
+  new workbox.strategies.CacheFirst({
+    cacheName: 'image-cache',
+  })
+);
+
+
